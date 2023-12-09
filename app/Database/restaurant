@@ -1,0 +1,175 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Dec 07, 2022 at 02:42 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `restaurant`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `dinein`
+-- (See below for the actual view)
+--
+CREATE TABLE `dinein` (
+`full_name` varchar(255)
+,`total_pax` varchar(255)
+,`product` varchar(255)
+,`price` double
+,`STATUS` enum('Completed','Waiting','Arrived','Paid')
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `main_course` varchar(255) NOT NULL,
+  `main_drink` varchar(255) NOT NULL,
+  `additional` varchar(255) NOT NULL,
+  `main_course_name` varchar(255) NOT NULL,
+  `main_drink_name` varchar(255) NOT NULL,
+  `additional_name` varchar(255) NOT NULL,
+  `price` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `title`, `main_course`, `main_drink`, `additional`, `main_course_name`, `main_drink_name`, `additional_name`, `price`) VALUES
+(2, 'Burger Set', 'http://localhost:8080/img/burger.jpg', 'http://localhost:8080/img/mineral.jpg', 'http://localhost:8080/img/frenchfries.jpg', 'Burger', 'Mineral Water', 'French Fries', 25000),
+(3, 'Sate Set', 'http://localhost:8080/img/sate.jpg', 'http://localhost:8080/img/Mineral.jpg', 'http://localhost:8080/img/lontong.jpg', 'Sate Ayam', 'Mineral Water', 'Lontong', 20000),
+(4, 'Ayam Penyet Set', 'http://localhost:8080/img/ayampenyet.jpg', 'http://localhost:8080/img/tehmanis.png', 'http://localhost:8080/img/kerupuk.jpg', 'Ayam Penyet', 'Es Teh Manis', 'Kerupuk', 30000),
+(5, 'Padang Set', 'http://localhost:8080/img/nasipadang.jpeg', 'http://localhost:8080/img/mineral.jpg', 'http://localhost:8080/img/kerupukkulit.jpg', 'Nasi Padang', 'Mineral Water', 'Kerupuk Kulit', 18000),
+(6, 'Gado Gado Set', 'http://localhost:8080/img/gadogado.jpg', 'http://localhost:8080/img/lemontea.jpg', 'http://localhost:8080/img/satelilit.jpeg', 'Gado Gado', 'Lemon Tea', 'Sate Lilit', 25000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction`
+--
+
+CREATE TABLE `transaction` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `product` varchar(255) NOT NULL,
+  `total_pax` varchar(255) NOT NULL,
+  `price` double NOT NULL,
+  `type` enum('Dinein','Reservation') NOT NULL,
+  `payment` varchar(255) NOT NULL,
+  `status` enum('Completed','Waiting','Arrived','Paid') NOT NULL,
+  `reserve_date` varchar(255) NOT NULL,
+  `order_date` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`id`, `full_name`, `email`, `product`, `total_pax`, `price`, `type`, `payment`, `status`, `reserve_date`, `order_date`) VALUES
+(27, 'dfi', 'ibrahimdafi.id@gmail.com', 'Steak Set', '1', 25000, 'Dinein', 'Cashier', 'Waiting', '2022-12-10T18:25', '2022-11-30 05:25:35'),
+(28, 'Akmal ', 'amegaputra@gmail.com', 'Steak Set', '2', 50000, 'Dinein', 'Bank', 'Waiting', '', '2022-12-02 02:49:39'),
+(29, 'May', 'amegaputra@gmail.com', 'Gado Gado Set', '2', 50000, 'Dinein', 'Cashier', 'Waiting', '', '2022-12-06 09:53:40'),
+(30, 'Akmal', 'amegaputra@gmail.com', 'Sate Set', '2', 40000, 'Dinein', 'Bank', 'Waiting', '2022-12-29T00:56', '2022-12-06 09:57:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `created_at`) VALUES
+(1, 'test123', '$2y$10$59lOu92orgPbLhB0EqJv5.EO76Q/3C70gYeyM18HsWcIjDkZllxrq', '2022-11-26 18:40:08'),
+(3, 'akmal', '$2y$10$C5w9oA3NHeskXOu4Z3vT/uBtu4uWWHWNLaKtKMffV42wI33g7YiPm', '2022-11-28 12:56:51'),
+(4, 'akmal', '$2y$10$.s.yubLFhPxm.g5bgZev1OtE5ti5k97qMAmSOlXawpeSg79uKwzha', '2022-12-06 14:34:00');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `dinein`
+--
+DROP TABLE IF EXISTS `dinein`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dinein`  AS SELECT `transaction`.`full_name` AS `full_name`, `transaction`.`total_pax` AS `total_pax`, `transaction`.`product` AS `product`, `transaction`.`price` AS `price`, `transaction`.`status` AS `STATUS` FROM `transaction` WHERE `transaction`.`type` = 'DineIn''DineIn'  ;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `transaction`
+--
+ALTER TABLE `transaction`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `transaction`
+--
+ALTER TABLE `transaction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
